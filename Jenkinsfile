@@ -15,8 +15,8 @@ pipeline {
         }
         stage('Build') {
             steps {
-                // Include build steps, such as npm build or Maven build, if necessary
                 echo 'Building application...'
+                // Include your build commands here, e.g., npm install, mvn package, etc.
             }
         }
         stage('Package') {
@@ -26,23 +26,23 @@ pipeline {
         }
         stage('Upload to S3') {
             steps {
-                withAWS(region: "${AWS_REGION}", credentials: 'aws-credentials-id') {
-                    s3Upload(file: 'Food-Project.zip', bucket: "${S3_BUCKET}", path: "Food-Project.zip")
+                withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', credentialsId: 'aws-credentials-id']]) {
+                    sh '''
+                    aws s3 cp Food-Project.zip s3://${S3_BUCKET}/Food-Project.zip --region ${AWS_REGION}
+                    '''
                 }
             }
         }
         stage('Deploy to EC2') {
             steps {
-                withAWS(region: "${AWS_REGION}", credentials: 'aws-credentials-id') {
-                    codedeployDeploy(
-                        applicationName: "${APPLICATION_NAME}",
-                        deploymentGroupName: "${DEPLOYMENT_GROUP_NAME}",
-                        s3Location: [
-                            bucket: "${S3_BUCKET}",
-                            key: "Food-Project.zip",
-                            bundleType: 'zip'
-                        ]
-                    )
+                withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', credentialsId: 'aws-credentials-id']]) {
+                    sh '''
+                    aws deploy create-deployment \
+                        --application-name ${APPLICATION_NAME} \
+                        --deployment-group-name ${DEPLOYMENT_GROUP_NAME} \
+                        --s3-location bucket=${S3_BUCKET},key=Food-Project.zip,bundleType=zip \
+                        --region ${AWS_REGION}
+                    '''
                 }
             }
         }
