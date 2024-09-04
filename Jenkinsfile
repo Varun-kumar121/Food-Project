@@ -3,7 +3,7 @@ pipeline {
     environment {
         REPO_URL = 'https://github.com/Varun-kumar121/Food-Project.git'
         S3_BUCKET = 'food-project-deployment-bucket'
-        APPLICATION_NAME = 'FoodProjectApp'
+        APPLICATION_NAME = 'WebApp'
         DEPLOYMENT_GROUP_NAME = 'FoodProjectDeploymentGroup'
         AWS_REGION = 'us-east-2'
     }
