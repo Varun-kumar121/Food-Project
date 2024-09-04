@@ -1,7 +1,7 @@
 pipeline {
     agent any
     environment {
-        REPO_URL = 'https://github.com/Varun-kumar121/Food-Project.git'
+        REPO_URL = 'https://github.com/Varun-kumar121/Food-Project'
         S3_BUCKET = 'food-project-deployment-bucket'
         APPLICATION_NAME = 'FoodProjectApp'
         DEPLOYMENT_GROUP_NAME = 'FoodProjectDeploymentGroup'
