@@ -21,7 +21,9 @@ pipeline {
         }
         stage('Package') {
             steps {
-                sh 'zip -r Food-Project.zip *'
+                echo 'Packaging application...'
+                // Ensure that the appspec.yml file and scripts directory are included in the zip
+                sh 'zip -r Food-Project.zip * .[^.]*' // The `.[^.]*` part ensures hidden files are included
             }
         }
         stage('Upload to S3') {
