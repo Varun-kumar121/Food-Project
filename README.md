@@ -1,4 +1,4 @@
-### README: Automated Deployment of a Web Application Using Jenkins, GitHub, and AWS CodeDeploy
+### Automated Deployment of a Web Application Using Jenkins, GitHub, and AWS CodeDeploy
 
 ---
 
